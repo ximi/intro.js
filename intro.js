@@ -51,7 +51,7 @@
       /* Hide Next/Prev Buttons? */
       hideNavigation: false,
       /* Hide Skip Button? */
-      hideSkip: false
+      hideSkipDone: false
     };
   }
 
@@ -481,7 +481,7 @@
       };
 
       var tooltipButtonsLayer = tooltipLayer.querySelector('.introjs-tooltipbuttons');
-      if (!this._options.hideSkip) {
+      if (!this._options.hideSkipDone) {
         tooltipButtonsLayer.appendChild(skipTooltipButton);
       }
 
@@ -496,21 +496,35 @@
     }
 
     if (this._currentStep == 0) {
-      prevTooltipButton.className = 'introjs-button introjs-prevbutton introjs-disabled';
-      nextTooltipButton.className = 'introjs-button introjs-nextbutton';
-      skipTooltipButton.innerHTML = this._options.skipLabel;
+      if(!this._options.hideNavigation) {
+        prevTooltipButton.className = 'introjs-button introjs-prevbutton introjs-disabled';
+        nextTooltipButton.className = 'introjs-button introjs-nextbutton';
+      }
+      if(!this._options.hideSkipDone) {
+        skipTooltipButton.innerHTML = this._options.skipLabel;
+      }
     } else if (this._introItems.length - 1 == this._currentStep) {
-      skipTooltipButton.innerHTML = this._options.doneLabel;
-      prevTooltipButton.className = 'introjs-button introjs-prevbutton';
-      nextTooltipButton.className = 'introjs-button introjs-nextbutton introjs-disabled';
+      if(!this._options.hideSkipDone) {
+        skipTooltipButton.innerHTML = this._options.doneLabel;
+      }
+      if(!this._options.hideNavigation) {
+        prevTooltipButton.className = 'introjs-button introjs-prevbutton';
+        nextTooltipButton.className = 'introjs-button introjs-nextbutton introjs-disabled';
+      }
     } else {
-      prevTooltipButton.className = 'introjs-button introjs-prevbutton';
-      nextTooltipButton.className = 'introjs-button introjs-nextbutton';
-      skipTooltipButton.innerHTML = this._options.skipLabel;
+      if(!this._options.hideNavigation) {
+        prevTooltipButton.className = 'introjs-button introjs-prevbutton';
+        nextTooltipButton.className = 'introjs-button introjs-nextbutton';
+      }
+      if(!this._options.hideSkipDone) {
+        skipTooltipButton.innerHTML = this._options.skipLabel;
+      }
     }
 
     //Set focus on "next" button, so that hitting Enter always moves you onto the next step
-    nextTooltipButton.focus();
+    if(!this._options.hideNavigation) {
+      nextTooltipButton.focus();
+    }
 
     //add target element position style
     targetElement.element.className += ' introjs-showElement';
