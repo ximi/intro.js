@@ -51,7 +51,9 @@
       /* Hide Next/Prev Buttons? */
       hideNavigation: false,
       /* Hide Skip Button? */
-      hideSkipDone: false
+      hideSkipDone: false,
+      /* Let user use keyboard to navigate the tour? */
+      keyboardNavigation: true
     };
   }
 
@@ -148,11 +150,15 @@
       };
 
       if (window.addEventListener) {
-        window.addEventListener('keydown', self._onKeyDown, true);
+        if(this._options.keyboardNavigation) {
+          window.addEventListener('keydown', self._onKeyDown, true);
+        }
         //for window resize
         window.addEventListener("resize", self._onResize, true);
       } else if (document.attachEvent) { //IE
-        document.attachEvent('onkeydown', self._onKeyDown);
+        if(this._options.keyboardNavigation) {
+          document.attachEvent('onkeydown', self._onKeyDown);
+        }
         //for window resize
         document.attachEvent("onresize", self._onResize);
       }
